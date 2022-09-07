@@ -1,6 +1,6 @@
 import pygame
-from dino_runner.components.obstacle_manager import ObstacleManager
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from components.obstacle_manager import ObstacleManager
+from utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 
 from components.dinisaur import Dinosaur
 
