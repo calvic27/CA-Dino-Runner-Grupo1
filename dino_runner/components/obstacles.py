@@ -12,6 +12,7 @@ class Bird(Obstacle):
         self.height=random.randint(0,1)
         super().__init__(image, self.index)
         if self.height==0:
-            self.rect.y = 275
+            self.rect.y = 270
         else:
             self.rect.y=210
+

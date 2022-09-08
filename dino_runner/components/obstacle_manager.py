@@ -1,6 +1,7 @@
 from components.obstacles import Cactus,Bird
 import random
-from utils.constants import BIRD,LARGE_CACTUS, SMALL_CACTUS
+import pygame
+from utils.constants import BIRD,LARGE_CACTUS, SMALL_CACTUS,GAME_OVER
 
 
 class ObstacleManager():
@@ -8,7 +9,7 @@ class ObstacleManager():
         self.obstacles = []
         self.step_index=0
 
-    def update(self):
+    def update(self,game,game_running,screen):
         if len(self.obstacles) == 0:
             x=random.randint(0,2)
             if x==0:
@@ -20,9 +21,17 @@ class ObstacleManager():
             self.step_index+=1
             if self.step_index >= 10:
                 self.step_index=0
+        for obstacle in self.obstacles:
+            if game.dinosaur.dino_rect.colliderect(obstacle.rect):
+                pygame.time.delay(1000)
+                game.playing =False 
+                game_running=False       
 
-        self.obstacles[self.step_index//10].update( 30, self.obstacles)
-        print(self.step_index)
+        self.obstacles[self.step_index//10].update( game.game_speed, self.obstacles,game_running)
+
+
+
     def draw(self, screen):
         for obstacle in self.obstacles:
             self.obstacles[self.step_index//10].draw(screen)
+
