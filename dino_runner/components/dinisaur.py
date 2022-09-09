@@ -5,13 +5,17 @@ from pygame.sprite import Sprite
 
 from utils.constants import (
     DUCKING,
+    DUCKING_HAMMER,
+    HAMMER_TYPE,
     RUNNING,
     JUMPING,
     DUCKING_SHIELD,
+    RUNNING_HAMMER,
     RUNNING_SHIELD,
     JUMPING_SHIELD,
     DEFAULT_TYPE,
-    SHIELD_TYPE
+    SHIELD_TYPE,
+    JUMPING_HAMMER
 )
 
 class Dinosaur(Sprite):
@@ -19,10 +23,10 @@ class Dinosaur(Sprite):
     JUMP_VEL = 8.5
 
     def __init__(self):
-        self.actions = [{DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD},{DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD}]
+        self.actions = [{DEFAULT_TYPE: DUCKING, SHIELD_TYPE: DUCKING_SHIELD, HAMMER_TYPE:DUCKING_HAMMER},{DEFAULT_TYPE: RUNNING, SHIELD_TYPE: RUNNING_SHIELD, HAMMER_TYPE:RUNNING_HAMMER}]
         self.Y_POS =[340,300]
         self.x=1
-        self.jump_img = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD}
+        self.jump_img = {DEFAULT_TYPE: JUMPING, SHIELD_TYPE: JUMPING_SHIELD,HAMMER_TYPE:JUMPING_HAMMER}
         self.type = DEFAULT_TYPE
         self.image = self.actions[1][self.type][0]
         self.dino_rect = self.image.get_rect()
@@ -33,8 +37,10 @@ class Dinosaur(Sprite):
         self.dino_jump = False
         self.jump_vel = self.JUMP_VEL
         self.step_index = 0
+        self.isShieldType=False
+        self.isHammerType=False
 
-    def update(self, user_input,obstacles_value):
+    def update(self, user_input,obstacles_value,game):
         if self.dino_jump:
             self.jump(obstacles_value)
         if self.dino_duck or self.dino_run:

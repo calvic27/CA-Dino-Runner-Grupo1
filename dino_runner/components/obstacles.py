@@ -7,12 +7,12 @@ class Cactus(Obstacle):
         super().__init__(image, self.index)
         self.rect.y = 320
 class Bird(Obstacle):
+
     def __init__(self, image):
-        self.index = random.randint(0,1)
+        self.index=0
         self.height=random.randint(0,1)
-        super().__init__(image, self.index)
+        super().__init__(image, self.index//5)
         if self.height==0:
             self.rect.y = 270
         else:
             self.rect.y=210
-

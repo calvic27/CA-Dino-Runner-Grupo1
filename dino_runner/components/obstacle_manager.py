@@ -1,7 +1,7 @@
 from components.obstacles import Cactus,Bird
 import random
 import pygame
-from utils.constants import BIRD,LARGE_CACTUS, SMALL_CACTUS,GAME_OVER
+from utils.constants import BIRD, DEFAULT_TYPE,LARGE_CACTUS, SMALL_CACTUS,GAME_OVER
 
 
 class ObstacleManager():
@@ -22,12 +22,23 @@ class ObstacleManager():
             if self.step_index >= 10:
                 self.step_index=0
         for obstacle in self.obstacles:
-            if game.dinosaur.dino_rect.colliderect(obstacle.rect):
-                pygame.time.delay(1000)
-                game.playing =False 
-                game_running=False       
-
-        self.obstacles[self.step_index//10].update( game.game_speed, self.obstacles,game_running)
+            if not game.dinosaur.isShieldType and not game.dinosaur.isHammerType:
+                if game.dinosaur.dino_rect.colliderect(obstacle.rect):
+                    pygame.time.delay(1000)
+                    game.playing =False 
+                    game_running=False
+                   
+            if game.dinosaur.dino_rect.colliderect(obstacle.rect) and game.dinosaur.isHammerType:
+                    self.obstacles=[]
+                    game.dinosaur.isHammerType=False
+                    game.dinosaur.type=DEFAULT_TYPE
+                    break
+            while game.dinosaur.dino_rect.colliderect(obstacle.rect) and game.dinosaur.isShieldType:
+                self.obstacles[self.step_index//10].update( game.game_speed, self.obstacles,game_running,game)
+                if not game.dinosaur.dino_rect.colliderect(obstacle.rect) and game.dinosaur.isShieldType:
+                    game.dinosaur.isShieldType=False
+                    game.dinosaur.type=DEFAULT_TYPE
+            self.obstacles[self.step_index//10].update( game.game_speed, self.obstacles,game_running,game)
 
 
 
